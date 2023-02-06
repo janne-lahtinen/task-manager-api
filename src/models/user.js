@@ -66,7 +66,7 @@ userSchema.virtual('tasks', {
 
 // Change returned user data to hide private info
 // res.send({ user }) calls JSON.stringify behind the scenes
-// and we can change everything usin toJSON
+// and we can change everything overriding toJSON
 userSchema.methods.toJSON = function () {
   const user = this
   const userObject = user.toObject()
