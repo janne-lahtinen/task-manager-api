@@ -49,6 +49,13 @@ test('Should not login nonexistent user', async () => {
   }).expect(400)
 })
 
+test('Should not login user with wrong password', async () => {
+  await request(app).post('/users/login').send({
+    email: userOne.email,
+    password: badUser.password
+  }).expect(400)
+})
+
 test('Should get profile for user', async () => {
   await request(app)
     .get('/users/me')
@@ -119,10 +126,11 @@ test('Should not update invalid user fields', async () => {
     .expect(404)
 })
 
-//
-// User Test Ideas
-//
-// Should not signup user with invalid name/email/password
-// Should not update user if unauthenticated
-// Should not update user with invalid name/email/password
-// Should not delete user if unauthenticated
+test('Should not update user if unauthenticated', async () => {
+  await request(app)
+    .patch('/users/me')
+    .send({
+      name: 'Paavo'
+    })
+    .expect(401)
+})
